@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Attack Target — Mock UI BY ZENIS </title>
+<style>
+  :root{
+    --bg:#0b0b0c;
+    --panel-bg: rgba(18,12,24,0.9);
+    --neon-pink: #ff2d95;
+    --neon-purple: #7b2cff;
+    --accent: linear-gradient(90deg,var(--neon-pink),var(--neon-purple));
+    --text: #e6dfe8;
+    --muted: #b8aeb9;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background: radial-gradient(ellipse at center, rgba(123,44,255,0.06) 0%, rgba(255,45,149,0.02) 20%, transparent 40%), var(--bg);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .card {
+    width: min(460px, 96vw);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;
+    padding:28px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 40px rgba(123,44,255,0.08) inset;
+    position:relative;
+    border: 2px solid rgba(255,255,255,0.02);
+    overflow:hidden;
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border-radius:14px;
+    pointer-events:none;
+    box-shadow: 0 0 28px rgba(123,44,255,0.28), 0 0 18px rgba(255,45,149,0.18);
+    mix-blend-mode: screen;
+  }
+
+  h1.title{
+    margin:0 0 18px 0;
+    font-size:34px;
+    text-align:center;
+    color: transparent;
+    background: linear-gradient(90deg,#ff2d95,#7b2cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 12px rgba(123,44,255,0.25);
+    font-weight:700;
+  }
+
+  form { display:flex; flex-direction:column; gap:12px; }
+
+  .field { display:flex; flex-direction:column; gap:8px; }
+
+  label { font-size:13px; color:var(--muted); margin-left:6px; }
+
+  input[type="text"], select {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.03);
+    padding:12px 14px;
+    border-radius:10px;
+    color:var(--text);
+    outline:none;
+    font-size:15px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.6), 0 0 10px rgba(123,44,255,0.03) inset;
+  }
+
+  .buttons { display:flex; gap:12px; margin-top:6px; }
+
+  button.btn {
+    flex:1;
+    padding:12px 16px;
+    font-size:16px;
+    border-radius:12px;
+    border: none;
+    cursor:pointer;
+    font-weight:600;
+    color:#0b0b0c;
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  }
+
+  button.primary {
+    background: linear-gradient(90deg,#ff2d95,#7b2cff);
+    color:#fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  }
+
+  button.ghost {
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    color:var(--text);
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .progress-wrap{ margin-top:8px; }
+  .progress { height:10px; background: rgba(255,255,255,0.04); border-radius:10px; overflow:hidden; position:relative; }
+  .progress > .bar{ width:0%; height:100%; border-radius:10px; background: linear-gradient(90deg,#ff2d95,#7b2cff); box-shadow: 0 8px 24px rgba(123,44,255,0.12); transition: width 0.25s linear; }
+
+  .status { margin-top:12px; font-size:14px; color: #f6e8a6; text-align:center; letter-spacing:.6px; min-height:20px; }
+
+  .sim-output {
+    margin-top:10px;
+    padding:10px;
+    background: rgba(255,255,255,0.02);
+    border-radius:10px;
+    font-family: monospace;
+    font-size:13px;
+    color:#dcd7e3;
+    min-height:60px;
+    overflow:auto;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .card-footer-glow{ position:absolute; left:50%; transform:translateX(-50%); bottom:-40px; width:380px; height:130px; background: radial-gradient(closest-side, rgba(123,44,255,0.16), transparent 40%), radial-gradient(closest-side, rgba(255,45,149,0.12), transparent 35%); filter: blur(26px); pointer-events:none; }
+
+  @media (max-width:480px){ h1.title { font-size:28px; } }
+</style>
+</head>
+<body>
+  <div class="card" role="region" aria-label="Attack Target mock panel">
+    <h1 class="title">Attack Target</h1>
+
+    <form id="panelForm" onsubmit="return false;">
+      <div class="field">
+        <label for="targetInput">Target (nomor / id)</label>
+        <input id="targetInput" type="text" inputmode="numeric" placeholder="62812xxxxxxx" maxlength="50" />
+      </div>
+
+      <div class="field">
+        <label for="delaySelect">Mode</label>
+        <select id="delaySelect" aria-label="Pilih mode">
+          <option value="crash 😢🥵">Crash Delay</option>
+          <option value="spam">Spam Ringkas</option>
+          <option value="simulate">Simulate Only</option>
+          <option value="invisible">Invisible </option>
+          <option value="sistem-ui-fc">Sistem UI Force-Close </option>
+          <option value="delay-maker">Delay Maker </option>
+          <option value="hard-crash 😢🥵">Hard Crash </option>
+        </select>
+      </div>
+
+      <div class="buttons">
+        <button id="sendBtn" class="btn primary" type="button">Kirim Bug</button>
+        <button id="resetBtn" class="btn ghost" type="button">Kembali</button>
+      </div>
+
+      <div class="progress-wrap" aria-hidden="false">
+        <div class="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" role="progressbar">
+          <div class="bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="status" id="statusText">Status: Siap.</div>
+
+      <div class="sim-output" id="simOutput" aria-live="polite">
+        <!-- simulation logs appear here -->
+      </div>
+    </form>
+
+    <div class="card-footer-glow" aria-hidden="true"></div>
+  </div>
+
+<script>
+  // PENTING: Semua ini HANYA SIMULASI visual & teks. Tidak ada aksi jaringan atau perintah sistem.
+  const sendBtn = document.getElementById('sendBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressBar = document.getElementById('progressBar');
+  const statusText = document.getElementById('statusText');
+  const targetInput = document.getElementById('targetInput');
+  const delaySelect = document.getElementById('delaySelect');
+  const simOutput = document.getElementById('simOutput');
+
+  let progressInterval = null;
+
+  function setStatus(text){
+    statusText.textContent = 'Status: ' + text;
+  }
+
+  function logSim(line){
+    const time = new Date().toLocaleTimeString();
+    simOutput.innerHTML += `[${time}] ${line}<br/>`;
+    simOutput.scrollTop = simOutput.scrollHeight;
+  }
+
+  function resetUI(){
+    if(progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+    progressBar.style.width = '0%';
+    progressBar.parentElement.setAttribute('aria-valuenow','0');
+    setStatus('Siap.');
+    sendBtn.disabled = false;
+  }
+
+  // mapping mode -> simulated behavior parameters
+  const MODE_MAP = {
+    'crash': {duration:4800, steps:10, note:'Simulasi crash ringan.'},
+    'spam': {duration:6000, steps:18, note:'Simulasi spam ringkas.'},
+    'simulate': {duration:2000, steps:8, note:'Simulasi singkat.'},
+    'invisible': {duration:7000, steps:14, note:'Mode invisible: output minimal, progress pelan.'},
+    'sistem-ui-fc': {duration:5000, steps:12, note:'Simulasi: pesan "System UI has ". '},
+    'delay-maker': {duration:9000, steps:20, note:'Delay maker: membuat jeda panjang .'},
+    'hard-crash': {duration:12000, steps:24, note:'Simulasi crash berat .'}
+  };
+
+  function simulateProgress(modeKey, target){
+    const cfg = MODE_MAP[modeKey] || MODE_MAP['simulate'];
+    const start = Date.now();
+    const end = start + cfg.duration;
+    const totalSteps = cfg.steps;
+    let lastStep = -1;
+
+    if(progressInterval) clearInterval(progressInterval);
+
+    logSim(`Mulai simulasi mode "${modeKey}" untuk target "${target}". ${cfg.note}`);
+    setStatus('Mengirim bug... 0%');
+    progressInterval = setInterval(() => {
+      const now = Date.now();
+      const pct = Math.min(100, Math.round( (now - start) / (end - start) * 100 ));
+      progressBar.style.width = pct + '%';
+      progressBar.parentElement.setAttribute('aria-valuenow', String(pct));
+
+      // emit step logs every (100/steps) percent
+      const step = Math.floor(pct / (100 / totalSteps));
+      if(step !== lastStep){
+        lastStep = step;
+        // create mode-specific simulated messages
+        if(modeKey === 'invisible'){
+          // invisible -> sparse logs
+          if(step % 3 === 0) logSim('Operasi berjalan... (invisible)');
+        } else if(modeKey === 'sistem-ui-fc'){
+          if(step === Math.floor(totalSteps/2)) logSim('Warning: System UI terhenti .');
+          if(step === totalSteps -1) logSim('System UI restart .');
+        } else if(modeKey === 'delay-maker'){
+          logSim('Membuat delay... ' + Math.min(99, pct) + '%');
+        } else if(modeKey === 'hard-crash'){
+          if(pct < 60) logSim('Menurunkan respon sistem... ');
+          else if(pct < 95) logSim('Memicu kondisi tidak responsif... ');
+        } else {
+          logSim('Memproses paket ke target... ' + pct + '%');
+        }
+      }
+
+      // small UX gimmick: flash status when near end
+      if(pct >= 100){
+        clearInterval(progressInterval);
+        progressInterval = null;
+        // mode-specific final messages
+        if(modeKey === 'sistem-ui-fc'){
+          setStatus('Selesai ). System UI: ." (hanya tampilan)');
+          logSim('Dialog "System UI has stopped" ditampilkan .');
+        } else if(modeKey === 'hard-crash'){
+          setStatus('Selesai . Perangkat tidak responsif (hanya ilustrasi).');
+          logSim('Perangkat tampak hang .');
+        } else {
+          setStatus('Selesai .');
+          logSim('selesai mengirim bug ke target kroco .');
+        }
+        sendBtn.disabled = false;
+      } else {
+        setStatus('Mengirim bug... ' + pct + '%');
+      }
+    }, Math.max(120, Math.floor(cfg.duration / (cfg.steps * 1.2))));
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const target = targetInput.value.trim() || '(kosong)';
+    const mode = delaySelect.value;
+
+    // light validation
+    if(target === '(kosong)'){
+      setStatus('Masukkan target terlebih dahulu.');
+      targetInput.focus();
+      return;
+    }
+
+    // Disallow any attempt to run external code — we keep everything client-side and safe.
+    sendBtn.disabled = true;
+    simOutput.innerHTML = ''; // clear logs
+    logSim('Validasi input selesai. Memulai ...');
+    simulateProgress(mode, target);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    targetInput.value = '';
+    delaySelect.selectedIndex = 0;
+    simOutput.innerHTML = '';
+    resetUI();
+  });
+
+  // init
+  resetUI();
+
+  // keyboard enter -> send
+  targetInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      sendBtn.click();
+    }
+  });
+</script>
+</body>
+  </html>
+  
